@@ -137,12 +137,7 @@ void setup() {
     delay(1000);
   }
 // Initialize OLED display
-    SeeedOled.init();  
-
-    //Habing these or not doesn't change anything
-    // SeeedOled.clearDisplay();          
-    // SeeedOled.setNormalDisplay();      
-    // SeeedOled.setPageMode();          
+    SeeedOled.init();          
 
     // connectToWiFi();
 }
