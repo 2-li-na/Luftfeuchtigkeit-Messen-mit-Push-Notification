@@ -15,8 +15,6 @@ This project is an air quality monitoring system using ESP32 that reads environm
 - BME680 environmental sensor
 - 128x64 OLED display
 - Adafruit NeoPixel RGB LED Ring (24 LEDs)
-- Jumper wires
-- Breadboard (optional for prototyping)
 
 ## Software Dependencies
 
