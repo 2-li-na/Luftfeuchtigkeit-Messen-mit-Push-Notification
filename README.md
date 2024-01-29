@@ -30,7 +30,7 @@ This project is an air quality monitoring system using ESP32 that reads environm
 
 1. Connect the BME680 sensor and the OLED display to the ESP32 using the I2C protocol.
 2. Connect the RGB LED Ring to the ESP32's digital pin as defined in the code.
-3. Set your WiFi SSID and password in the provided code to enable internet connectivity.
+3. Set your WiFi SSID and password to enable internet connectivity.
 4. The ESP32 will connect to the WiFi network and fetch the current time from an NTP server.
 5. The sensor data and the current time will be displayed on the OLED screen.
 6. The LED ring will change colors based on the air quality reading.
