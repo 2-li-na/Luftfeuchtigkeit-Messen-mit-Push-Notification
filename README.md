@@ -38,5 +38,4 @@ This project is an air quality monitoring system using ESP32 that reads environm
 ## Configuration
 
 - Set the NTP time offset to match your local time zone. For CET (Central European Time), the offset is set to +1 hour.
-- Adjust the air quality thresholds to suit your requirements.
 
