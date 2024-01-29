@@ -6,12 +6,13 @@
 #include <WiFiClient.h>
 #include <Adafruit_NeoPixel.h>
 #include <SeeedOLED.h>
-// #include <U8g2lib.h>
 #include <time.h>
+#include <WiFiClientSecure.h>
+#include <UniversalTelegramBot.h>
 
 //WiFi Infos
-const char* ssid = "MagentaWLAN-YECH";
-const char* password = "85815231439396745295";
+const char* ssid = "YOUR_SSID";
+const char* password = "YOUR_PASSWORD";
 
 //define I2C pins for sensor
 #define I2C_SDA 21
@@ -21,6 +22,17 @@ const char* password = "85815231439396745295";
 #define LED_PIN 19
 #define NUM_LEDS 24
 Adafruit_NeoPixel strip(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
+
+// Telegram BOT Token (Get from Botfather)
+#define BOT_TOKEN "XXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+// Use @myidbot (IDBot) to find out the chat ID of an individual or a group
+// Also note that you need to click "start" on a bot before it can
+// message you
+#define CHAT_ID "175753388"
+
+WiFiClientSecure secured_client;
+UniversalTelegramBot bot(BOT_TOKEN, secured_client);
 
 //instance of BME680 sensor
 Adafruit_BME680 bme;
@@ -33,6 +45,7 @@ const int daylightOffset_sec = 3600; //Additional +1 hour for CEST
 void connectToWiFi() {
   Serial.println("Connecting to WiFi...");
   WiFi.begin(ssid, password);
+  secured_client.setCACert(TELEGRAM_CERTIFICATE_ROOT); // Add root certificate for api.telegram.org
 
   int attempts = 0;
   while (WiFi.status() != WL_CONNECTED && attempts < 20) { // Try to connect for a certain number of attempts
@@ -183,8 +196,10 @@ void updateLEDRing(float airQualityValue) {
 
   if(airQualityValue < lowQ) {
     setRingColor(255, 0, 0); //RED Color
+    bot.sendMessage(CHAT_ID, "Poor Air Quality. :(", "");
   } else {
     setRingColor(0,255,0); //Green
+    bot.sendMessage(CHAT_ID, "Good Air Quality. :)", "");
   }
 
   updateDisplay();
