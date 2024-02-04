@@ -98,9 +98,19 @@ void updateDisplay(){
 //Air Quality Check
   float calculateAirQuality() {
     return bme.humidity;
-    return bme.temperature;
-    return bme.pressure / 100.0;
-    return bme.gas_resistance / 1000.0;
+  }
+//Global Variable
+  float lowQuality = 10.0;
+  void updateLEDRing(float airQualityValue) {
+    String message;
+    if (airQualityValue < lowQuality) {
+    setRingColor(255, 0, 0); //RED Color
+    message = "Poor Air Quality... :(";
+    } else {
+    setRingColor(0, 255, 0); //Green
+    message = "Good Air Quality... :)";
+      }
+    bot.sendMessage(CHAT_ID, message, "");
   }
 
   void setRingColor(uint8_t red, uint8_t green, uint8_t blue) {
@@ -109,8 +119,6 @@ void updateDisplay(){
   }
   strip.show();
   }
-
-
 
 void setup() {
   //start I2C communication
@@ -152,13 +160,6 @@ void setup() {
 // Initialize OLED display
     SeeedOled.init();          
 
-    // connectToWiFi();
-}
-
-
-void loop() {
-  //Tell BME680 to begin measurement
-  unsigned long startTime = millis();
   if(!bme.performReading()){
     Serial.println("Failed to perform reading...");
     return;
@@ -179,8 +180,7 @@ void loop() {
   Serial.print(bme.gas_resistance / 1000.0);
   Serial.println(" KOhms");
 
-  // updateDisplay();
-  delay(2000); // Delay between readings
+  updateDisplay();
 
 //Calculate air Quality
   float airQualityValue = calculateAirQuality(); 
@@ -190,19 +190,8 @@ void loop() {
   delay(2000);
 }
 
-void updateLEDRing(float airQualityValue) {
-  float lowQ = 10.0;
-  // float moderateQ = 30.0;
 
-  if(airQualityValue < lowQ) {
-    setRingColor(255, 0, 0); //RED Color
-    bot.sendMessage(CHAT_ID, "Poor Air Quality. :(", "");
-  } else {
-    setRingColor(0,255,0); //Green
-    bot.sendMessage(CHAT_ID, "Good Air Quality. :)", "");
-  }
+void loop() {
 
-  updateDisplay();
-  delay(2000); 
 }
 
